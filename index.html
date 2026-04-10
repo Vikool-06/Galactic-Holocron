@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Star Wars Galaxy Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div id="topbar">
+    <span id="logo">⚛ STAR WARS GALAXY MAP</span>
+    <input id="search" type="text" placeholder="🔍 Search a planet, system or sector..." />
+  </div>
+
+  <!-- The map -->
+  <div id="map"></div>
+
+  <!-- Planet info panel (slides in on click) -->
+  <div id="infopanel" class="hidden">
+    <button id="close-panel">✕</button>
+    <div id="panel-region"></div>
+    <h2 id="panel-name"></h2>
+    <div id="panel-tags"></div>
+    <hr/>
+    <div class="info-grid">
+      <div><span class="label">Sector</span><span id="panel-sector"></span></div>
+      <div><span class="label">System</span><span id="panel-system"></span></div>
+      <div><span class="label">Grid Ref</span><span id="panel-grid"></span></div>
+      <div><span class="label">Affiliation</span><span id="panel-affiliation"></span></div>
+      <div><span class="label">Climate</span><span id="panel-climate"></span></div>
+      <div><span class="label">Terrain</span><span id="panel-terrain"></span></div>
+      <div><span class="label">Population</span><span id="panel-population"></span></div>
+      <div><span class="label">Gravity</span><span id="panel-gravity"></span></div>
+    </div>
+    <hr/>
+    <h3>About</h3>
+    <p id="panel-lore"></p>
+    <hr/>
+    <h3>Notable Events</h3>
+    <p id="panel-events"></p>
+    <a id="panel-wookiee" href="#" target="_blank">📖 Read on Wookieepedia →</a>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- PapaParse (reads your Google Sheet) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <script src="map.js"></script>
+</body>
+</html>

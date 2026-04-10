@@ -1,0 +1,184 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #000;
+  font-family: 'Exo 2', sans-serif;
+  color: #e8d8a0;
+  overflow: hidden;
+}
+
+/* TOP BAR */
+#topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 54px;
+  background: rgba(0,0,0,0.85);
+  border-bottom: 1px solid #3a3a5c;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 20px;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+}
+
+#logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  color: #f0c040;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+#search {
+  flex: 1;
+  max-width: 400px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid #3a3a5c;
+  border-radius: 6px;
+  padding: 7px 14px;
+  color: #e8d8a0;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border 0.2s;
+}
+#search:focus { border-color: #f0c040; }
+#search::placeholder { color: #666; }
+
+/* MAP */
+#map {
+  position: fixed;
+  top: 54px; left: 0; right: 0; bottom: 0;
+  background: #000010;
+}
+
+/* Leaflet zoom controls */
+.leaflet-control-zoom a {
+  background: rgba(0,0,0,0.8) !important;
+  color: #f0c040 !important;
+  border: 1px solid #3a3a5c !important;
+}
+
+/* PLANET MARKERS */
+.planet-marker {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.planet-marker:hover { transform: scale(1.8); }
+
+.marker-republic    { background: #4a9eff; box-shadow: 0 0 6px #4a9eff; }
+.marker-empire      { background: #cc3333; box-shadow: 0 0 6px #cc3333; }
+.marker-neutral     { background: #aaaaaa; box-shadow: 0 0 4px #aaa; }
+.marker-sith        { background: #cc0033; box-shadow: 0 0 8px #cc0033; }
+.marker-hutt        { background: #88aa00; box-shadow: 0 0 5px #88aa00; }
+.marker-unknown     { background: #555577; }
+
+/* INFO PANEL */
+#infopanel {
+  position: fixed;
+  top: 54px; right: 0;
+  width: 360px;
+  height: calc(100vh - 54px);
+  background: rgba(5, 5, 20, 0.96);
+  border-left: 1px solid #2a2a4a;
+  padding: 24px 22px;
+  overflow-y: auto;
+  z-index: 900;
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+#infopanel.hidden { transform: translateX(100%); }
+
+#close-panel {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: none;
+  border: 1px solid #3a3a5c;
+  color: #aaa;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+#close-panel:hover { color: #fff; border-color: #fff; }
+
+#panel-region {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f0c040;
+  margin-bottom: 6px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+#panel-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+#panel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.tag {
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid #3a3a5c;
+  color: #aaa;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+hr { border: none; border-top: 1px solid #1e1e3a; margin: 16px 0; }
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.info-grid div { display: flex; flex-direction: column; gap: 2px; }
+.label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #555577;
+}
+.info-grid span:last-child { font-size: 13px; color: #c8c0e0; }
+
+h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #f0c040;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+#panel-lore, #panel-events {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #b0a8c0;
+}
+
+#panel-wookiee {
+  display: inline-block;
+  margin-top: 20px;
+  color: #f0c040;
+  font-size: 12px;
+  text-decoration: none;
+  border: 1px solid #f0c04044;
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+#panel-wookiee:hover { background: rgba(240,192,64,0.1); }
