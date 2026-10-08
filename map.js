@@ -34,7 +34,6 @@ function gridToPixel(gridX, gridY) {
 
   return { x: px, y: py };
 }
-}
 
 // ─── YOUR DATA SOURCES ────────────────────────────────────────────
 // Source 1: parzivail's dataset → planet positions (WHERE the dots go)
@@ -43,12 +42,12 @@ const PLANETS_JSON_URL =
 
 // Source 2: Your Google Sheet → lore & info panel content (WHAT shows on click)
 // Replace this with your published Google Sheet CSV URL
-const SHEET_CSV_URL = "YOUR_GOOGLE_SHEET_CSV_URL_HERE";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1cZ-JSc9zDIRn0VQt--rBtgoCZSJL3-wjxLfcsylrfeo/edit?usp=sharing";
 
 // ─── IMAGE SETUP ──────────────────────────────────────────────────
 const MAP_IMAGE = "galaxy.jpg";
-const IMAGE_W = 4096; // ← replace with your galaxy.jpg actual width in pixels
-const IMAGE_H = 4096; // ← replace with your galaxy.jpg actual height in pixels
+const IMAGE_W = 4000; // ← replace with your galaxy.jpg actual width in pixels
+const IMAGE_H = 4000; // ← replace with your galaxy.jpg actual height in pixels
 const MAP_BOUNDS = [[0, 0], [IMAGE_H, IMAGE_W]];
 
 const map = L.map('map', {
