@@ -116,7 +116,7 @@ function loadSheet() {
 }
 
 // Run both loads in parallel, then place markers
-Promise.all([loadPositions(), loadSheet()]).then ([planets, rows]) => 
+Promise.all([loadPositions(), loadSheet()]).then ([planets, rows]) => {
   allPlanets = planets;
 
   // Index your sheet rows by planet name for fast lookup
@@ -151,6 +151,7 @@ Promise.all([loadPositions(), loadSheet()]).then ([planets, rows]) =>
   marker.addTo(map);
   allMarkers.push(marker); // collect all markers for search highlighting
 });
+}
 
 // ─── OPEN INFO PANEL ──────────────────────────────────────────────
 function openPanel(planetPos) {
