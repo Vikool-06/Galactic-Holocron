@@ -8,7 +8,7 @@ const GRID_START_ROW = 2;  // your map's first visible row is row 2
 // Pixel position of the TOP-LEFT grid corner visible on your image
 // = where Column C meets Row 2
 // → hover over that intersection in Photopea with Info panel open
-const GRID_PIXEL_TOP_LEFT     = { x: 763, y: 905 };  // ← replace with your values
+const GRID_PIXEL_TOP_LEFT     = { x: 763, y: 1105 };  // ← replace with your values
 
 // Pixel position of the BOTTOM-RIGHT grid corner visible on your image
 // = the last column and last row you can see (looks like U and row 21)
@@ -73,7 +73,30 @@ function getMarkerClass(region) {
 }
 
 // ─── LOAD BOTH SOURCES, THEN BUILD MAP ────────────────────────────
-let allPlanets   = []; // from parzivail  → coordinates
+let allPlanets   = []; let allMarkers = [];      // stores every marker so we can find & highlight them
+let selectedMarker = null; // tracks the currently highlighted marker
+
+function highlightMarker(marker, name) {
+  // Remove highlight from previous selection
+  if (selectedMarker) {
+    const prevEl = selectedMarker.getElement();
+    if (prevEl) {
+      prevEl.querySelector(".planet-marker").classList.remove("selected");
+      const oldPulse = prevEl.querySelector(".planet-pulse");
+      if (oldPulse) oldPulse.remove();
+    }
+  }
+
+  // Add highlight to new selection
+  selectedMarker = marker;
+  const el = marker.getElement();
+  if (el) {
+    el.querySelector(".planet-marker").classList.add("selected");
+    const pulse = document.createElement("div");
+    pulse.className = "planet-pulse";
+    el.querySelector(".planet-marker-wrapper").appendChild(pulse);
+  }
+}// from parzivail  → coordinates
 let sheetData    = {}; // from your Sheet → lore, keyed by planet name (lowercase)
 
 // Helper: load parzivail JSON
@@ -102,25 +125,31 @@ Promise.all([loadPositions(), loadSheet()]).then(([planets, rows]) => {
   });
 
   // Place a dot for every planet in parzivail's dataset
-  planets.forEach(planet => {
-    const gx = (planet.X || 0) + (planet.SubGridX || 0);
-    const gy = (planet.Y || 0) + (planet.SubGridY || 0);
-    if (!gx || !gy) return;
+ planets.forEach(planet => {
+  const gx = (planet.X || 0) + (planet.SubGridX || 0);
+  const gy = (planet.Y || 0) + (planet.SubGridY || 0);
+  if (!gx || !gy) return;
 
-    const px = gridToPixel(gx, gy);
-    const markerClass = getMarkerClass(planet.Region);
+  const px = gridToPixel(gx, gy);
+  const markerClass = getMarkerClass(planet.Region);
 
-    const icon = L.divIcon({
-      className: "",
-      html: `<div class="planet-marker ${markerClass}" title="${planet.Name}"></div>`,
-      iconSize: [10, 10],
-      iconAnchor: [5, 5],
-    });
-
-    const marker = L.marker([px.y, px.x], { icon });
-    marker.on("click", () => openPanel(planet));
-    marker.addTo(map);
+  const icon = L.divIcon({
+    className: "",
+    html: `<div class="planet-marker-wrapper">
+             <div class="planet-marker ${markerClass}" title="${planet.Name}"></div>
+           </div>`,
+    iconSize: [10, 10],
+    iconAnchor: [5, 5],
   });
+
+  const marker = L.marker([px.y, px.x], { icon });
+  marker.on("click", () => {
+    highlightMarker(marker, planet.Name);
+    openPanel(planet);
+  });
+  marker.planetName = planet.Name;
+  marker.addTo(map);
+  allMarkers.push(marker); // collect all markers for search highlighting
 });
 
 // ─── OPEN INFO PANEL ──────────────────────────────────────────────
@@ -196,16 +225,25 @@ document.getElementById("close-panel").addEventListener("click", () => {
 document.getElementById("search").addEventListener("input", function () {
   const query = this.value.toLowerCase().trim();
   if (!query) return;
+
   const match = allPlanets.find(p =>
     (p.Name   || "").toLowerCase().includes(query) ||
     (p.Sector || "").toLowerCase().includes(query) ||
     (p.Coord  || "").toLowerCase().includes(query)
   );
+
   if (match) {
     const gx = (match.X || 0) + (match.SubGridX || 0);
     const gy = (match.Y || 0) + (match.SubGridY || 0);
     const px = gridToPixel(gx, gy);
+
     map.setView([px.y, px.x], 1, { animate: true });
     openPanel(match);
+
+    // Find and highlight the marker
+    const marker = allMarkers.find(m =>
+      (m.planetName || "").toLowerCase() === (match.Name || "").toLowerCase()
+    );
+    if (marker) highlightMarker(marker, match.Name);
   }
 });

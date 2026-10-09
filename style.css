@@ -182,3 +182,33 @@ h3 {
   transition: background 0.2s;
 }
 #panel-wookiee:hover { background: rgba(240,192,64,0.1); }
+
+/* Selected / searched planet highlight */
+.planet-marker.selected {
+  transform: scale(2.5) !important;
+  z-index: 9999 !important;
+}
+
+.planet-pulse {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #f0c040;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: pulse-ring 1.5s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(3);   opacity: 0; }
+}
+
+.planet-marker-wrapper {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
